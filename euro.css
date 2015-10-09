@@ -1,0 +1,25 @@
+#chaves {
+	background-color:rgb(80%,80%,100%);
+}
+
+div.chave ul {
+	display:inline-block;
+}
+
+div.chave li {
+	display:inline-block;
+	border-style:solid;
+	border-width:2px;
+	border-color:red;
+	border-radius:5px;
+	width:50px;
+	font-size: 20px;
+	text-align:center;
+}
+
+ul.numeros li {
+	background-color:lime;
+}
+ul.estrelas li {
+	background-color:yellow;
+}
