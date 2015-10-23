@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Gerador de Chaves do EuroMilhões</title>
+		<meta charset="UTF-8">
+		<script src="jquery/jquery-2.1.4.js"></script>		
+		<script>
+			// jQuery
+			$(document).ready(function () {
+				$("#bt_limpa").click(function () {
+					$("#chaves").empty();			
+				});
+				
+				$("#bt_gera").click(gera);
+				$("#bt_externa").click(pedirChave);
+				
+				/*
+				botao_limpa = document.getElementById("bt_limpa");
+				console.log(botao_limpa);
+				
+				botao_limpa.onclick = function () {
+					document.getElementById("chaves").innerHTML="";
+				};	
+				*/			
+			});
+			
+			/*
+			function inicia(){
+				botao_limpa = document.getElementById("bt_limpa");
+				console.log(botao_limpa);
+				
+				botao_limpa.onclick = function () {
+					document.getElementById("chaves").innerHTML="";
+				};
+			}	
+			*/
+			function pedirChave() {
+				$.ajax("chave.js", {
+					method: "GET",
+					dataType: "json",
+					success: mostraChave,
+				});
+			}		
+			
+			function mostraChave(dados) {
+				var listaNumeros = $("<ul/>").addClass("numeros");
+				
+		 		$.each(dados.numeros,function(index, val){
+					listaNumeros.append($("<li/>").html(val));	
+		 		});
+		 				 		
+		 		var listaEstrelas = $("<ul class=\"estrelas\"/>");
+		 			 		
+		 		$.each(dados.estrelas,function(index, val){
+					listaEstrelas.append($("<li/>").html(val));	
+		 		});		 		
+		 		
+		 		$("#chaves").append($("<div/>").addClass("chave").append(listaNumeros).append(listaEstrelas));
+		 		
+			}
+			
+		 	function gera(){
+		 		//var html = "<div class='chave'><ul class='numeros'><li>1</li><li>3</li><li>17</li><li>33</li><li>45</li></ul><ul class='estrelas'><li>7</li><li>9</li></ul></div>";
+		 		//document.getElementById("chaves").innerHTML+=html;
+		 		
+		 		var allNumbers = Array();
+		 		var allStars = Array();
+		 		
+		 		const NN = 5;
+		 		const NE = 2;
+		 		const MAXN = 50;
+		 		const MINN = 1;
+		 		const MAXE = 11;
+		 		const MINE = 1;
+		 		
+		 		// Preencher arrays com números e estrelas
+		 		
+		 		for (i=0;i<(MAXN - MINN) + 1; i++){
+		 			allNumbers[i] = MINN + i;
+		 		}
+		 		
+		 		for (i=0;i<(MAXE - MINE) + 1; i++){
+		 			allStars[i] = MINE + i;
+		 		}
+		 		
+		 		console.log("Estrelas: ", allStars);
+		 		console.log("Números: ", allNumbers);
+		 		
+		 		// Extrair números
+		 		
+		 		var keyNumbers = Array();
+		 		var keyStars = Array();
+		 		
+		 		for(i=0;i<NN;i++){
+		 			var index = Math.floor(Math.random() * allNumbers.length);
+		 			var nx = allNumbers.splice(index,1);
+		 			console.log(nx);		 			
+		 			keyNumbers.push(nx[0]);
+		 		}
+		 		keyNumbers.sort(compare);
+		 		console.log(keyNumbers);		 		
+		 				 		
+		 		for(i=0;i<NE;i++){
+		 			var index = Math.floor(Math.random() * allStars.length);
+		 			var nx = allStars.splice(index,1);
+		 			console.log(nx);		 			
+		 			keyStars.push(nx[0]);
+		 		}
+		 		keyStars.sort(compare);
+		 		console.log(keyStars);		 		
+		 				 		
+		 		//var listaNumeros = document.createElement("ul");
+		 		//listaNumeros.setAttribute("class", "numeros");		 		
+		 		var listaNumeros = $("<ul/>").addClass("numeros");
+		 		
+		 		/*
+		 		for(i=0; i < keyNumbers.length; i++){
+		 			var novoli = document.createElement("li");
+		 			novoli.innerHTML = keyNumbers[i];
+		 			listaNumeros.appendChild(novoli);
+		 		}		 		 
+		 		 */
+		 		$.each(keyNumbers,function(index, val){
+					listaNumeros.append($("<li/>").html(val));	
+		 		});
+		 				 		
+		 		//var listaEstrelas = document.createElement("ul");
+		 		//listaEstrelas.setAttribute("class", "estrelas");
+		 		var listaEstrelas = $("<ul class=\"estrelas\"/>");
+		 		
+		 		/*
+		 		for(i=0; i < keyStars.length; i++){
+		 			var novoli = document.createElement("li");
+		 			novoli.innerHTML = keyStars[i];
+		 			listaEstrelas.appendChild(novoli);
+		 		}
+		 		*/		 		
+		 		$.each(keyStars,function(index, val){
+					listaEstrelas.append($("<li/>").html(val));	
+		 		});		 		
+		 		
+		 		//var divChave = document.createElement("div");
+		 		$("#chaves").append($("<div/>").addClass("chave").append(listaNumeros).append(listaEstrelas));
+		 		
+		 		/*
+		 		divChave.setAttribute("class","chave");
+		 		
+		 		divChave.appendChild(listaNumeros);
+		 		divChave.appendChild(listaEstrelas);		 		
+		 		 
+		 		document.getElementById("chaves").appendChild(divChave);
+		 		*/
+		 				
+		 		function compare(a, b){
+		 			return a - b;
+		 		}
+		 	};
+		</script>
+
+		<style>
+			h1 {color: red}
+			h1 {
+				color:green;
+				font-size: 40px;
+			}
+			
+			#copy {
+				color:blue;
+				font-size : 20px;
+			}
+			
+		</style>
+		<link rel="stylesheet" href="euro.css"/>
+		
+	</head>
+	<body>
+		<h1>Sistemas de Informação em Rede</h1>
+		<p style="color:gold;">Escola
+			Superior          de Tecnologia <br/>
+			e Gestão</p>
+		<div id="titulo">
+			CHAVE DO EUROMILHÕES
+		</div>
+		<div id="botoes">
+			<button id="bt_gera">Gera Chave</button>
+			<button id="bt_limpa">Limpa Chaves</button>
+			<button id="bt_externa">Obter Chave Externa</button>
+		</div>
+		<div id="chaves">
+			<div class="chave">
+				<ul class="numeros">
+					<li>1</li>
+					<li>3</li>
+					<li>17</li>
+					<li>33</li>
+					<li>45</li>
+				</ul>
+				<ul class="estrelas">
+					<li>7</li>
+					<li>9</li>
+				</ul>
+			</div>
+		</div>
+		<h1 id="copy"> &copy; 2015</h1>		
+	</body>	
+	<script src="externo.js"></script>
+</html>
