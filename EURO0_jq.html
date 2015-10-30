@@ -12,8 +12,8 @@
 				});
 				
 				$("#bt_gera").click(gera);
-				$("#bt_externa").click(pedirChave);
-				
+				$("#bt_externaJ").click(pedirChaveJ);
+				$("#bt_externaX").click(pedirChaveX);
 				/*
 				botao_limpa = document.getElementById("bt_limpa");
 				console.log(botao_limpa);
@@ -34,15 +34,28 @@
 				};
 			}	
 			*/
-			function pedirChave() {
+			function pedirChaveJ() {
 				$.ajax("serveChave.php", {
 					method: "GET",
 					dataType: "json",
-					success: mostraChave,
+					success: mostraChaveJ,
+					data : {
+						"type" : "json" 
+					}
 				});
-			}		
+			}	
+			function pedirChaveX() {
+				$.ajax("serveChave.php", {
+					method: "GET",
+					dataType: "xml",
+					success: mostraChaveX,
+					data : {
+						"type" : "xml" 
+					}
+				});
+			}			
 			
-			function mostraChave(dados) {
+			function mostraChaveJ(dados) {
 				var listaNumeros = $("<ul/>").addClass("numeros");
 				
 		 		$.each(dados.numeros,function(index, val){
@@ -57,6 +70,22 @@
 		 		
 		 		$("#chaves").append($("<div/>").addClass("chave").append(listaNumeros).append(listaEstrelas));
 		 		
+			}
+			
+			function mostraChaveX(dados) {
+				console.log(dados);
+				var listaNumeros = $("<ul/>").addClass("numeros");
+				listan = $(dados).find("numeros>num");
+				$.each(listan,function(index, no){
+					listaNumeros.append($("<li/>").html($(no).text()));	
+		 		});
+		 		
+		 		var listaEstrelas = $("<ul class=\"estrelas\"/>");		 
+				listae = $(dados).find("estrelas>num");
+				$.each(listae,function(index, no){
+					listaEstrelas.append($("<li/>").html($(no).text()));	
+		 		});
+		 		$("#chaves").append($("<div/>").addClass("chave").append(listaNumeros).append(listaEstrelas));
 			}
 			
 		 	function gera(){
@@ -184,7 +213,8 @@
 		<div id="botoes">
 			<button id="bt_gera">Gera Chave</button>
 			<button id="bt_limpa">Limpa Chaves</button>
-			<button id="bt_externa">Obter Chave Externa</button>
+			<button id="bt_externaJ">Obter Chave Externa JSON </button>
+			<button id="bt_externaX">Obter Chave Externa XML</button>
 		</div>
 		<div id="chaves">
 			<div class="chave">
@@ -203,5 +233,5 @@
 		</div>
 		<h1 id="copy"> &copy; 2015</h1>		
 	</body>	
-	<script src="externo.js"></script>
+	<!--script src="externo.js"></script-->
 </html>

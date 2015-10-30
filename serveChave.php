@@ -29,13 +29,13 @@ class Gerador {
 		$todosnumeros = range(1,50);
 		$todasestrelas = range(1,11);
 		
-		for($i=1;$i<5;$i++) {
+		for($i=0;$i<5;$i++) {
 			$randomindex = rand(0,count($todosnumeros)-1);
 			$numero = array_splice($todosnumeros,$randomindex,1);
 			$this->chave->numeros[] = $numero[0];
 		}
 		
-		for($i=1;$i<2;$i++) {
+		for($i=0;$i<2;$i++) {
 			$randomindex = rand(0,count($todasestrelas)-1);
 			$estrela = array_splice($todasestrelas,$randomindex,1);
 			$this->chave->estrelas[] = $estrela[0];
